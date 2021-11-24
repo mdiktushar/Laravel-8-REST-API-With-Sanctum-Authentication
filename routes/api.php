@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Product;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,4 +16,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/products', function() {
+    return Product::all();
+});
+
+Route::post('/products', function() {
+    return Product::create([
+        'name'=>'Dol',
+        'slug' => 'dol-one',
+        'description' => 'This is a plastic dol',
+        'price' => '8.95',
+    ]);
 });
