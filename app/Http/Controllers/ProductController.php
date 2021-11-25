@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+
+// CMD (Crud api): php artisan make:controller ProductController --api
 
 class ProductController extends Controller
 {
@@ -14,6 +17,8 @@ class ProductController extends Controller
     public function index()
     {
         //
+        $data = product::all();
+        return $data;
     }
 
     /**
@@ -25,6 +30,13 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'price' => 'required',
+
+        ]);
+        return Product::create($request->all());
     }
 
     /**
@@ -36,6 +48,7 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+        return Product::find($id);
     }
 
     /**
@@ -48,6 +61,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = product::find($id);
+        $data -> update($request->all());
+        return $data;
     }
 
     /**
@@ -59,5 +75,19 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        return Product::destroy($id);
+    }
+
+
+    /**
+     * Searching the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function search($name)
+    {
+        //
+        return Product::where('name','like','%'.$name.'%')->get();
     }
 }
