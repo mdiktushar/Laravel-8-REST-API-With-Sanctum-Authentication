@@ -19,6 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::get('/products', [ProductController::class, 'index']);
 
 Route::post('/products', [ProductController::class, 'store']);
@@ -30,3 +32,12 @@ Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
 Route::get('/products/search/{name}', [ProductController::class, 'search']);
+
+// Public routs
+// Routs::resource('products', ProductController::class);
+
+// Protected routs
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    // every route inside this can't be accessed without loging in
+    // Route::get('/products/search/{name}', [ProductController::class, 'search']);
+});
